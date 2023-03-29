@@ -1,7 +1,7 @@
 // Import modules
 const inquirer = require("inquirer");
 const fs = require("fs");
-const { Circle, Triangle, Square } = require("./lib/shapes.js");
+const { Shape, Circle, Triangle, Square } = require("./lib/shapes.js");
 
 function userPrompt() {
   return new Promise((resolve, reject) => {
@@ -9,7 +9,8 @@ function userPrompt() {
       {
         type: "input",
         name: "text",
-        message: "Enter up to 3 characters for text:",
+        message: "Enter up to 3 characters:",
+        // validate that user has entered at least 3 characters. If not throw validation message until user corrects.
         validate: function (input) {
           return input.length <= 3 || "Please enter 3 characters max";
         },
@@ -23,7 +24,7 @@ function userPrompt() {
         type: "list",
         name: "shape",
         message: "Pick a shape:",
-        choices: ["circle", "triangle", "square"],
+        choices: ["Circle", "Triangle", "Square"],
       },
       {
         type: "input",
@@ -31,5 +32,22 @@ function userPrompt() {
         message: "Enter a color or hex # for your shape:",
       },
     ]);
+  }).then((answers) => {
+    let shape;
+    switch (answers.shape) {
+      case "Circle":
+        shape = new Circle();
+        break;
+      case "Triangle":
+        shape = new Triangle();
+        break;
+      case "Square":
+        shape = new Square();
+        break;
+      default:
+        break;
+    }
   });
 }
+
+userPrompt();
