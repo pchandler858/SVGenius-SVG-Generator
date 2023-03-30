@@ -13,7 +13,10 @@ function userPrompt() {
           message: "Enter up to 3 characters:",
           // validate that user has entered at least 3 characters. If not throw validation message until user corrects.
           validate: function (input) {
-            return input.length <= 3 || "Please enter 3 characters max";
+            return (
+              (input.length <= 3 && input.length > 0) ||
+              "You must enter between 1 - 3 characters"
+            );
           },
         },
         {
