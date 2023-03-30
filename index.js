@@ -57,7 +57,7 @@ function userPrompt() {
 
         const svg = shape.render(answers.text);
 
-        fs.writeFile("logo.svg", svg, (err) => {
+        fs.writeFile("logo.html", svg, (err) => {
           if (err) {
             console.error(err);
             reject(err);
