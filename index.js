@@ -57,12 +57,12 @@ function userPrompt() {
 
         const svg = shape.render(answers.text);
 
-        fs.writeFile("logo.html", svg, (err) => {
+        fs.writeFile("logo.svg", svg, (err) => {
           if (err) {
             console.error(err);
             reject(err);
           } else {
-            resolve("SVG Generated!!!");
+            resolve("Generated logo.svg");
           }
         });
       })
