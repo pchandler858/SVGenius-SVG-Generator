@@ -2,6 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { Shape, Circle, Triangle, Square } = require("./lib/shapes.js");
+const { resolve } = require("path");
 
 function userPrompt() {
   return new Promise((resolve, reject) => {
@@ -32,22 +33,35 @@ function userPrompt() {
         message: "Enter a color or hex # for your shape:",
       },
     ]);
-  }).then((answers) => {
-    let shape;
-    switch (answers.shape) {
-      case "Circle":
-        shape = new Circle();
-        break;
-      case "Triangle":
-        shape = new Triangle();
-        break;
-      case "Square":
-        shape = new Square();
-        break;
-      default:
-        break;
-    }
-  });
+  })
+    .then((answers) => {
+      let shape;
+      switch (answers.shape) {
+        case "Circle":
+          shape = new Circle();
+          break;
+        case "Triangle":
+          shape = new Triangle();
+          break;
+        case "Square":
+          shape = new Square();
+          break;
+        default:
+          break;
+      }
+      shape.setColor(answers.shapeColor);
+      shape.setTextColor(answers.textColor);
+
+      const svg = shape.render(answers.text);
+
+      fs.writeFile("logo.svg", svg, (err) => {
+        if (err) reject(err);
+        resolve("SVG Generated!!!");
+      });
+    })
+    .catch((error) => reject(error));
 }
 
-userPrompt();
+userPrompt()
+  .then((message) => console.log(message))
+  .catch((error) => console.log(error));
